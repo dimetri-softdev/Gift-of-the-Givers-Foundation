@@ -8,7 +8,7 @@ namespace GiftOfTheGivers.Models {
         [Required, StringLength(100)]
         public string FullName { get; set; } = string.Empty;
         [Required, EmailAddress, StringLength(100)]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         [StringLength(20)]
         public string? PhoneNumber { get; set; } = "Donor"; // Admin, Employee, Donor, Volunteer
     }

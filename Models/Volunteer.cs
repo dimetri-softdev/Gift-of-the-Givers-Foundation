@@ -6,16 +6,27 @@ namespace GiftOfTheGivers.Models
     public class Volunteer
     {
         [Key]
-        public int VolunteerID { get; set; }
-        public int UserID { get; set; }
-        [ForeignKey("UserID")]
-        public User? User { get; set; }
-        [Required, StringLength(250)]
-        public string Skills { get; set; } = string.Empty; // Medical, Logistics, Driving, etc.
-        [Required, StringLength(100)]
-        public string Availability { get; set; } = string.Empty; // Weekdays, Weekends, Emergency Callout
-        public int? AssignedProjectID { get; set; }
-        [ForeignKey("AssignedProjectID")]
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string FullName { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(50)]
+        public string Region { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(50)]
+        public string SkillCategory { get; set; } = string.Empty; // e.g. Medical, Driving, Logistics
+
+        [Required]
+        [StringLength(50)]
+        public string Availability { get; set; } = string.Empty; // e.g. Weekdays, Weekends
+
+        public int? AssignedProjectId { get; set; }
+
+        [ForeignKey("AssignedProjectId")]
         public ReliefProject? AssignedProject { get; set; }
     }
 }
