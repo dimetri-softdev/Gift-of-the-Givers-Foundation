@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Employee Operations Dashboard";
+}
+
+<section class="bg-gray-100 min-h-screen py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Admin Banner Header -->
+        <div class="bg-gray-900 text-white p-6 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 mb-8 shadow-sm">
+            <div>
+                <span class="text-[10px] font-bold tracking-widest uppercase text-emerald-400">Internal Operations Portal</span>
+                <h1 class="text-2xl font-bold">Employee Dashboard</h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-xs text-white shadow">
+                    IS
+                </div>
+                <div class="text-left sm:text-right">
+                    <span class="block text-xs font-bold leading-none">Dr. Imtiaz Sooliman</span>
+                    <span class="text-[10px] text-gray-400">Administrator</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-600 shadow-sm">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Active Projects</span>
+                <div class="text-3xl font-extrabold text-gray-900 mt-1">4</div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-400 shadow-sm">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Registered Volunteers</span>
+                <div class="text-3xl font-extrabold text-gray-900 mt-1">48</div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-amber-400 shadow-sm">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Monthly Donations</span>
+                <div class="text-3xl font-extrabold text-gray-900 mt-1">R2.4M</div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-red-500 shadow-sm">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Emergency Areas</span>
+                <div class="text-3xl font-extrabold text-gray-900 mt-1">1</div>
+            </div>
+        </div>
+
+        <!-- Volunteer Roster Table -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+                <h2 class="text-base font-bold text-gray-900">Volunteer Roster</h2>
+                <div class="flex space-x-2 text-xs font-medium">
+                    <button class="bg-emerald-600 text-white px-3 py-1.5 rounded-md">All</button>
+                    <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Medical</button>
+                    <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Logistics</button>
+                    <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Driving</button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-gray-600">
+                    <thead class="bg-gray-50 font-bold uppercase text-gray-500 text-[10px] tracking-wider border-b border-gray-100">
+                        <tr>
+                            <th class="p-4">Volunteer</th>
+                            <th class="p-4">Region</th>
+                            <th class="p-4">Skills</th>
+                            <th class="p-4">Availability</th>
+                            <th class="p-4">Assigned Project</th>
+                            <th class="p-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-gray-50/50">
+                            <td class="p-4 font-bold text-gray-900 flex items-center space-x-2">
+                                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">AD</span>
+                                <span>Amahle Dlamini</span>
+                            </td>
+                            <td class="p-4">KwaZulu-Natal</td>
+                            <td class="p-4"><span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-medium border border-emerald-200">Medical</span></td>
+                            <td class="p-4">Weekdays</td>
+                            <td class="p-4 font-semibold text-gray-800">KZN Flood Relief</td>
+                            <td class="p-4 text-right">
+                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold px-3 py-1.5 rounded-md transition-colors">Reassign</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50">
+                            <td class="p-4 font-bold text-gray-900 flex items-center space-x-2">
+                                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">SM</span>
+                                <span>Sipho Mokoena</span>
+                            </td>
+                            <td class="p-4">Gauteng</td>
+                            <td class="p-4"><span class="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full font-medium border border-blue-200">Driving</span></td>
+                            <td class="p-4">Weekends</td>
+                            <td class="p-4 text-gray-400 italic">Unassigned</td>
+                            <td class="p-4 text-right">
+                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold px-3 py-1.5 rounded-md transition-colors">Assign</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50">
+                            <td class="p-4 font-bold text-gray-900 flex items-center space-x-2">
+                                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">DP</span>
+                                <span>Dimetri Peters</span>
+                            </td>
+                            <td class="p-4">Eastern Cape</td>
+                            <td class="p-4"><span class="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full font-medium border border-amber-200">Logistics</span></td>
+                            <td class="p-4">Full-Time</td>
+                            <td class="p-4 font-semibold text-gray-800">Water Crisis Intervention</td>
+                            <td class="p-4 text-right">
+                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold px-3 py-1.5 rounded-md transition-colors">Reassign</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

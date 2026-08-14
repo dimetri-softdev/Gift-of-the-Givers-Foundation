@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "Disaster Projects";
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 space-y-4 md:space-y-0">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Live Assistance</span>
+                <h2 class="text-3xl font-extrabold text-gray-900">Active Relief Operations</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                Showing active disaster response projects across southern Africa.
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=800&q=80" alt="KZN Flood Relief" class="w-full h-full object-cover" />
+                        <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded uppercase tracking-wider">Urgent</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-lg font-bold text-gray-900">KZN Flood Relief</h3>
+                        <p class="text-xs text-gray-500 flex items-center">
+                            📍 <span class="ml-1 font-medium">KwaZulu-Natal, South Africa</span>
+                        </p>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Providing immediate food parcels, clean drinking water, and emergency shelter kits to displaced families.
+                        </p>
+                        <div class="space-y-1.5 pt-2">
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs font-bold text-gray-700">
+                                <span>R4 250 000 raised</span>
+                                <span class="text-emerald-700">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 pt-0">
+                    <a asp-controller="Donate" asp-action="Index" class="block text-center w-full bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold py-2.5 rounded-lg text-xs transition-colors no-underline">
+                        Donate to this Campaign
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80" alt="Water Crisis Intervention" class="w-full h-full object-cover" />
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded uppercase tracking-wider">Active</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-lg font-bold text-gray-900">Water Crisis Intervention</h3>
+                        <p class="text-xs text-gray-500 flex items-center">
+                            📍 <span class="ml-1 font-medium">Eastern Cape, South Africa</span>
+                        </p>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Drilling boreholes, deploying water tankers, and installing purification systems in drought-affected towns.
+                        </p>
+                        <div class="space-y-1.5 pt-2">
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 60%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs font-bold text-gray-700">
+                                <span>R1 800 000 raised</span>
+                                <span class="text-emerald-700">60%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 pt-0">
+                    <a asp-controller="Donate" asp-action="Index" class="block text-center w-full bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold py-2.5 rounded-lg text-xs transition-colors no-underline">
+                        Donate to this Campaign
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1578357078586-491adf1aa5ba?auto=format&fit=crop&w=800&q=80" alt="Winter Warmth Support" class="w-full h-full object-cover" />
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded uppercase tracking-wider">Active</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-lg font-bold text-gray-900">Winter Warmth Support</h3>
+                        <p class="text-xs text-gray-500 flex items-center">
+                            📍 <span class="ml-1 font-medium">Free State, South Africa</span>
+                        </p>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Distributing blankets, thermal clothing, and hot meals to vulnerable informal settlements.
+                        </p>
+                        <div class="space-y-1.5 pt-2">
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 40%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs font-bold text-gray-700">
+                                <span>R800 000 raised</span>
+                                <span class="text-emerald-700">40%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 pt-0">
+                    <a asp-controller="Donate" asp-action="Index" class="block text-center w-full bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold py-2.5 rounded-lg text-xs transition-colors no-underline">
+                        Donate to this Campaign
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

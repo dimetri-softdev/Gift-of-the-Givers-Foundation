@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Make a Donation";
+}
+
+<section class="py-12 bg-white max-w-3xl mx-auto px-4 sm:px-6">
+    <div class="text-center space-y-2 mb-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Direct Contribution</span>
+        <h1 class="text-3xl font-extrabold text-gray-900">Make a Donation</h1>
+        <p class="text-sm text-gray-500">Every Rand Reaches Someone in Crisis</p>
+    </div>
+
+    <form method="post" asp-controller="Donate" asp-action="Process" class="bg-gray-50 p-6 sm:p-8 rounded-xl border border-gray-200 space-y-6 shadow-sm">
+        <!-- Frequency Switcher -->
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Frequency</label>
+            <div class="grid grid-cols-2 gap-2 bg-gray-200 p-1 rounded-lg text-sm font-semibold">
+                <button type="button" class="bg-emerald-600 text-white py-2 rounded-md shadow-sm">One-Time</button>
+                <button type="button" class="text-gray-700 hover:text-gray-900 py-2">Monthly Recurring</button>
+            </div>
+        </div>
+
+        <!-- Currency Selector -->
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Currency</label>
+            <select class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                <option>ZAR — South African Rand (R)</option>
+                <option>USD — United States Dollar ($)</option>
+                <option>EUR — Euro (€)</option>
+            </select>
+        </div>
+
+        <!-- Preset Amount Grid -->
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Select Amount</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+                <button type="button" class="bg-white border border-gray-300 hover:border-emerald-600 py-2.5 rounded-md font-bold text-sm text-gray-800 transition-colors">R100</button>
+                <button type="button" class="bg-white border border-gray-300 hover:border-emerald-600 py-2.5 rounded-md font-bold text-sm text-gray-800 transition-colors">R250</button>
+                <button type="button" class="bg-emerald-600 text-white font-bold py-2.5 rounded-md text-sm shadow-sm">R500</button>
+                <button type="button" class="bg-white border border-gray-300 hover:border-emerald-600 py-2.5 rounded-md font-bold text-sm text-gray-800 transition-colors">R1000</button>
+            </div>
+            <input type="number" name="CustomAmount" placeholder="Or enter custom amount (ZAR)" class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+        </div>
+
+        <!-- Target Campaign Selection -->
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Direct My Donation To</label>
+            <select class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                <option value="general">Where Need is Greatest (General Fund)</option>
+                <option value="kzn-floods">KZN Flood Relief</option>
+                <option value="water-crisis">Water Crisis Intervention</option>
+                <option value="winter-warmth">Winter Warmth Support</option>
+            </select>
+        </div>
+
+        <!-- Form Options & Tax Request -->
+        <div class="space-y-3 pt-2">
+            <label class="flex items-center space-x-3 text-xs font-medium text-gray-700 cursor-pointer">
+                <input type="checkbox" name="IsAnonymous" class="rounded text-emerald-600 focus:ring-emerald-500 h-4 w-4 border-gray-300" />
+                <span>Donate anonymously as guest</span>
+            </label>
+
+            <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-lg flex items-start space-x-3">
+                <input type="checkbox" name="NeedsTaxCertificate" class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 h-4 w-4 border-gray-300" />
+                <div class="text-xs">
+                    <span class="font-bold text-emerald-900 block mb-0.5">Section 18A Tax Certificate Required</span>
+                    <p class="text-emerald-700 leading-normal">Check this box to request an official receipt for tax deductibility in South Africa.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit CTA -->
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-lg shadow transition-colors text-sm">
+            Proceed to Payment
+        </button>
+    </form>
+</section>
