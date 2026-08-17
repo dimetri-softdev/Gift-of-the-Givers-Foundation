@@ -2,25 +2,31 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
+<div class="flex items-center space-x-2 text-sm font-semibold">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
+    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage Account"
+       class="px-3 py-2 rounded-lg text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 transition-all no-underline flex items-center space-x-2">
+        <i class="fa-solid fa-circle-user text-emerald-600 text-base"></i>
+        <span>Hello, @User.Identity?.Name!</span>
+    </a>
+
+    <form class="inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <button type="submit" class="px-3 py-2 rounded-lg text-slate-600 hover:text-red-600 hover:bg-red-50 transition-all font-semibold flex items-center space-x-1.5">
+            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+            <span>Logout</span>
+        </button>
+    </form>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+    <a asp-area="Identity" asp-page="/Account/Login"
+       class="px-3.5 py-2 rounded-lg text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 transition-all no-underline">
+        Log in
+    </a>
+    <a asp-area="Identity" asp-page="/Account/Register"
+       class="px-3.5 py-2 rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-all no-underline">
+        Register
+    </a>
 }
-</ul>
+</div>
