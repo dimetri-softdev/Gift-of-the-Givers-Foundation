@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GiftOfTheGivers.Models
@@ -6,17 +7,29 @@ namespace GiftOfTheGivers.Models
     public class Donation
     {
         [Key]
-        public int DonationID { get; set; } // Primary Key
-        public int? UserID { get; set; } // Nullable for anonymous guest donations
-        [ForeignKey("UserID")] 
-        public User? User { get; set; } // Navigation property to the User model
-        [Required, Column(TypeName = "decimal(18,2)")]
-        public decimal Amount { get; set; } // Amount donated
-        [Required, StringLength(3)]
-        public string Currency { get; set; } = "ZAR"; // Currency code (e.g., ZAR, USD, EUR)
+        public int Id { get; set; }
+
+        public string? DonorName { get; set; }
+
+        public string? DonorEmail { get; set; }
+
         [Required]
-        public string Frequency { get; set; } = "One-Time"; // One-Time, Monthly Recurring
-        public DateTime DonationDate { get; set; } = DateTime.Now; // Date of the donation
-        public Guid TaxCertificateCode { get; set; } = Guid.NewGuid(); // Unique code for tax certificate generation
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Amount { get; set; }
+
+        public string Currency { get; set; } = "ZAR";
+
+        public string Frequency { get; set; } = "One-Time";
+
+        public string? TaxCertificateCode { get; set; }
+
+        public DateTime DonationDate { get; set; } = DateTime.Now;
+
+        // Foreign Key for ReliefProject
+        public int? ReliefProjectId { get; set; }
+
+        // Navigation Property
+        [ForeignKey("ReliefProjectId")]
+        public virtual ReliefProject? ReliefProject { get; set; }
     }
 }

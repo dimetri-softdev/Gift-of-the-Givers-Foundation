@@ -2,116 +2,289 @@
     ViewData["Title"] = "Employee Operations Dashboard";
 }
 
-<section class="bg-gray-100 min-h-screen py-8">
+<section class="bg-gray-50/50 min-h-screen py-10 font-sans">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Admin Banner Header -->
-        <div class="bg-gray-900 text-white p-6 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 mb-8 shadow-sm">
-            <div>
-                <span class="text-[10px] font-bold tracking-widest uppercase text-emerald-400">Internal Operations Portal</span>
-                <h1 class="text-2xl font-bold">Employee Dashboard</h1>
+        <div class="bg-gradient-to-r from-gray-900 via-gray-800 to-emerald-950 text-white p-6 sm:p-8 rounded-2xl shadow-xl mb-8 border border-gray-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Live Operations
+                    </span>
+                    <span class="text-xs text-gray-400 font-mono">Portal v2.4</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Employee Operations Dashboard</h1>
+                <p class="text-xs sm:text-sm text-gray-400">Manage ongoing relief missions, resource distribution, and volunteer deployment.</p>
             </div>
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-xs text-white shadow">
-                    IS
+
+            <!-- Profile & Quick Action -->
+            <div class="flex flex-wrap items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-gray-800">
+                <div class="flex items-center gap-3 bg-gray-800/80 backdrop-blur px-4 py-2 rounded-xl border border-gray-700/50">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white font-black flex items-center justify-center text-sm shadow-md ring-2 ring-emerald-500/30">
+                        IS
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-gray-100">Dr. Imtiaz Sooliman</span>
+                        <span class="block text-[11px] text-emerald-400 font-medium">Administrator</span>
+                    </div>
                 </div>
-                <div class="text-left sm:text-right">
-                    <span class="block text-xs font-bold leading-none">Dr. Imtiaz Sooliman</span>
-                    <span class="text-[10px] text-gray-400">Administrator</span>
-                </div>
+
+                <a href="#new-project" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-3 rounded-xl transition-all shadow-lg shadow-emerald-900/30 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    New Relief Project
+                </a>
             </div>
         </div>
 
         <!-- KPI Summary Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-600 shadow-sm">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Active Projects</span>
-                <div class="text-3xl font-extrabold text-gray-900 mt-1">4</div>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-400 shadow-sm">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Registered Volunteers</span>
-                <div class="text-3xl font-extrabold text-gray-900 mt-1">48</div>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-amber-400 shadow-sm">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Monthly Donations</span>
-                <div class="text-3xl font-extrabold text-gray-900 mt-1">R2.4M</div>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-red-500 shadow-sm">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Emergency Areas</span>
-                <div class="text-3xl font-extrabold text-gray-900 mt-1">1</div>
-            </div>
-        </div>
-
-        <!-- Volunteer Roster Table -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-                <h2 class="text-base font-bold text-gray-900">Volunteer Roster</h2>
-                <div class="flex space-x-2 text-xs font-medium">
-                    <button class="bg-emerald-600 text-white px-3 py-1.5 rounded-md">All</button>
-                    <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Medical</button>
-                    <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Logistics</button>
-                    <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors">Driving</button>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <!-- Active Projects -->
+            <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Active Projects</p>
+                        <h3 class="text-3xl font-black text-gray-900 mt-2">4</h3>
+                    </div>
+                    <div class="p-3 bg-emerald-100 text-emerald-700 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-xs text-emerald-600 font-semibold gap-1 relative z-10">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span>2 deployed this week</span>
                 </div>
             </div>
 
+            <!-- Registered Volunteers -->
+            <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Registered Volunteers</p>
+                        <h3 class="text-3xl font-black text-gray-900 mt-2">48</h3>
+                    </div>
+                    <div class="p-3 bg-blue-100 text-blue-700 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-xs text-blue-600 font-semibold gap-1 relative z-10">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    <span>+12 pending approval</span>
+                </div>
+            </div>
+
+            <!-- Monthly Donations -->
+            <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-amber-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Monthly Donations</p>
+                        <h3 class="text-3xl font-black text-gray-900 mt-2">R2.4M</h3>
+                    </div>
+                    <div class="p-3 bg-amber-100 text-amber-700 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-xs text-amber-600 font-semibold gap-1 relative z-10">
+                    <span>84% of target reached</span>
+                </div>
+            </div>
+
+            <!-- Emergency Areas -->
+            <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Critical Interventions</p>
+                        <h3 class="text-3xl font-black text-rose-600 mt-2">1 Area</h3>
+                    </div>
+                    <div class="p-3 bg-rose-100 text-rose-700 rounded-xl animate-bounce">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex items-center text-xs text-rose-600 font-semibold gap-1 relative z-10">
+                    <span class="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
+                    <span>Water shortage intervention</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volunteer Roster Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200/80 overflow-hidden">
+
+            <!-- Controls / Header -->
+            <div class="p-6 border-b border-gray-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900">Volunteer Operations Roster</h2>
+                    <p class="text-xs text-gray-500 mt-0.5">Filter, monitor, and assign volunteers to active field missions.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <!-- Search Input -->
+                    <div class="relative">
+                        <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" placeholder="Search volunteer or region..." class="pl-9 pr-4 py-2 text-xs border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 w-full sm:w-60 bg-gray-50/50">
+                    </div>
+
+                    <!-- Category Pills -->
+                    <div class="flex bg-gray-100/80 p-1 rounded-xl text-xs font-semibold text-gray-600 self-start sm:self-auto">
+                        <button class="bg-white text-gray-900 px-3 py-1.5 rounded-lg shadow-sm">All</button>
+                        <button class="hover:text-gray-900 px-3 py-1.5 transition-colors">Medical</button>
+                        <button class="hover:text-gray-900 px-3 py-1.5 transition-colors">Logistics</button>
+                        <button class="hover:text-gray-900 px-3 py-1.5 transition-colors">Driving</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs text-gray-600">
-                    <thead class="bg-gray-50 font-bold uppercase text-gray-500 text-[10px] tracking-wider border-b border-gray-100">
+                    <thead class="bg-gray-50/80 font-bold uppercase text-gray-400 text-[10px] tracking-wider border-b border-gray-100">
                         <tr>
-                            <th class="p-4">Volunteer</th>
-                            <th class="p-4">Region</th>
-                            <th class="p-4">Skills</th>
-                            <th class="p-4">Availability</th>
-                            <th class="p-4">Assigned Project</th>
-                            <th class="p-4 text-right">Action</th>
+                            <th class="py-4 px-6">Volunteer Details</th>
+                            <th class="py-4 px-6">Region</th>
+                            <th class="py-4 px-6">Specialized Skill</th>
+                            <th class="py-4 px-6">Availability</th>
+                            <th class="py-4 px-6">Assigned Mission</th>
+                            <th class="py-4 px-6 text-right">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <tr class="hover:bg-gray-50/50">
-                            <td class="p-4 font-bold text-gray-900 flex items-center space-x-2">
-                                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">AD</span>
-                                <span>Amahle Dlamini</span>
+                    <tbody class="divide-y divide-gray-100 font-medium">
+
+                        <!-- Row 1 -->
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs ring-2 ring-emerald-500/20">
+                                        AD
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-gray-900 text-sm group-hover:text-emerald-700 transition-colors">Amahle Dlamini</span>
+                                        <span class="text-[11px] text-gray-400">amahle.d@gmail.com</span>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="p-4">KwaZulu-Natal</td>
-                            <td class="p-4"><span class="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-medium border border-emerald-200">Medical</span></td>
-                            <td class="p-4">Weekdays</td>
-                            <td class="p-4 font-semibold text-gray-800">KZN Flood Relief</td>
-                            <td class="p-4 text-right">
-                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold px-3 py-1.5 rounded-md transition-colors">Reassign</button>
+                            <td class="py-4 px-6 text-gray-700 font-semibold">
+                                KwaZulu-Natal
                             </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50/50">
-                            <td class="p-4 font-bold text-gray-900 flex items-center space-x-2">
-                                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">SM</span>
-                                <span>Sipho Mokoena</span>
+                            <td class="py-4 px-6">
+                                <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-semibold text-[11px] border border-emerald-200/60">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Medical
+                                </span>
                             </td>
-                            <td class="p-4">Gauteng</td>
-                            <td class="p-4"><span class="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full font-medium border border-blue-200">Driving</span></td>
-                            <td class="p-4">Weekends</td>
-                            <td class="p-4 text-gray-400 italic">Unassigned</td>
-                            <td class="p-4 text-right">
-                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold px-3 py-1.5 rounded-md transition-colors">Assign</button>
+                            <td class="py-4 px-6 text-gray-600">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md text-[11px] font-medium">Weekdays</span>
                             </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50/50">
-                            <td class="p-4 font-bold text-gray-900 flex items-center space-x-2">
-                                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px]">DP</span>
-                                <span>Dimetri Peters</span>
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-200/60 inline-block">KZN Flood Relief</span>
                             </td>
-                            <td class="p-4">Eastern Cape</td>
-                            <td class="p-4"><span class="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full font-medium border border-amber-200">Logistics</span></td>
-                            <td class="p-4">Full-Time</td>
-                            <td class="p-4 font-semibold text-gray-800">Water Crisis Intervention</td>
-                            <td class="p-4 text-right">
-                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-bold px-3 py-1.5 rounded-md transition-colors">Reassign</button>
+                            <td class="py-4 px-6 text-right">
+                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-extrabold px-3.5 py-1.5 rounded-lg transition-all shadow-sm active:scale-95 text-xs">
+                                    Reassign
+                                </button>
                             </td>
                         </tr>
+
+                        <!-- Row 2 -->
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs ring-2 ring-blue-500/20">
+                                        SM
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-gray-900 text-sm group-hover:text-emerald-700 transition-colors">Sipho Mokoena</span>
+                                        <span class="text-[11px] text-gray-400">sipho.m@yahoo.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-gray-700 font-semibold">
+                                Gauteng
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-semibold text-[11px] border border-blue-200/60">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                    Driving
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-gray-600">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md text-[11px] font-medium">Weekends</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="text-gray-400 italic font-normal text-[11px] bg-gray-100 px-2.5 py-1 rounded-lg">Unassigned</span>
+                            </td>
+                            <td class="py-4 px-6 text-right">
+                                <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-3.5 py-1.5 rounded-lg transition-all shadow-sm active:scale-95 text-xs">
+                                    Assign
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3 -->
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-xs ring-2 ring-amber-500/20">
+                                        DP
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-gray-900 text-sm group-hover:text-emerald-700 transition-colors">Dimetri Peters</span>
+                                        <span class="text-[11px] text-gray-400">dimetri.peters@dev.org</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-gray-700 font-semibold">
+                                Eastern Cape
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 px-3 py-1 rounded-full font-semibold text-[11px] border border-amber-200/60">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                    Logistics
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-gray-600">
+                                <span class="inline-block bg-emerald-50 text-emerald-800 font-semibold px-2.5 py-1 rounded-md text-[11px]">Full-Time</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-bold text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-200/60 inline-block">Water Crisis Intervention</span>
+                            </td>
+                            <td class="py-4 px-6 text-right">
+                                <button class="bg-amber-400 hover:bg-amber-500 text-gray-950 font-extrabold px-3.5 py-1.5 rounded-lg transition-all shadow-sm active:scale-95 text-xs">
+                                    Reassign
+                                </button>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
+
+            <!-- Footer Pagination/Summary -->
+            <div class="p-4 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                <span>Showing <strong>3</strong> of <strong>48</strong> registered volunteers</span>
+                <div class="flex items-center gap-2">
+                    <button class="px-3 py-1 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 disabled:opacity-50" disabled>Previous</button>
+                    <button class="px-3 py-1 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-medium">Next</button>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </section>

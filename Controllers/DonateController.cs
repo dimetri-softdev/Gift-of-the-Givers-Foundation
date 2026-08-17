@@ -1,6 +1,8 @@
 ﻿using GiftOfTheGivers.Data;
 using GiftOfTheGivers.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GiftOfTheGivers.Controllers
 {
@@ -17,6 +19,7 @@ namespace GiftOfTheGivers.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            // Fetch active projects to display in the donation form
             ViewBag.Projects = _context.ReliefProjects.Where(p => p.Status == "Active").ToList();
             return View();
         }
@@ -29,6 +32,13 @@ namespace GiftOfTheGivers.Controllers
             if (ModelState.IsValid)
             {
                 donation.DonationDate = DateTime.Now;
+
+                // Auto-generate Section 18A Tax Certificate Reference Code
+                if (string.IsNullOrEmpty(donation.TaxCertificateCode))
+                {
+                    donation.TaxCertificateCode = $"TAX-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+                }
+
                 _context.Donations.Add(donation);
 
                 // Update RaisedAmount on ReliefProject if selected
@@ -38,16 +48,34 @@ namespace GiftOfTheGivers.Controllers
                     if (project != null)
                     {
                         project.RaisedAmount += donation.Amount;
+                        donation.ReliefProjectId = selectedProjectId.Value;
                     }
                 }
 
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thank you for your generous donation!";
-                return RedirectToAction(nameof(Index));
+
+                // Redirect to Confirmation screen with the new Donation ID
+                return RedirectToAction(nameof(Confirmation), new { id = donation.Id });
             }
 
             ViewBag.Projects = _context.ReliefProjects.Where(p => p.Status == "Active").ToList();
             return View("Index", donation);
+        }
+
+        // GET: /Donate/Confirmation/{id}
+        [HttpGet]
+        public async Task<IActionResult> Confirmation(int id)
+        {
+            var donation = await _context.Donations
+                .Include(d => d.ReliefProject)
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (donation == null)
+            {
+                return NotFound();
+            }
+
+            return View(donation);
         }
     }
 }

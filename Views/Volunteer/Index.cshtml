@@ -2,79 +2,138 @@
 
 @{
     ViewData["Title"] = "Become a Volunteer";
+    var projects = ViewBag.Projects as IEnumerable<GiftOfTheGivers.Models.ReliefProject>;
 }
 
-<section class="py-12 bg-white max-w-3xl mx-auto px-4 sm:px-6">
-    <div class="text-center space-y-2 mb-8">
-        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Join the Cause</span>
-        <h1 class="text-3xl font-extrabold text-gray-900">Volunteer Registration</h1>
-        <p class="text-sm text-gray-500">Lend your skills to aid communities during disasters</p>
+<section class="py-12 bg-gray-50 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Header / Hero Section -->
+        <div class="text-center space-y-3 mb-10">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 tracking-wide uppercase">
+                Join The Cause
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                Volunteer Registration
+            </h1>
+            <p class="text-base text-gray-600 max-w-2xl mx-auto">
+                Lend your expertise and time to provide critical boots-on-the-ground disaster relief and emergency support across South Africa.
+            </p>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mb-8 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg text-emerald-900 text-sm font-medium shadow-sm flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <svg class="h-5 w-5 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span>@TempData["SuccessMessage"]</span>
+                </div>
+            </div>
+        }
+
+        <!-- Registration Card Form -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-10">
+            <form asp-controller="Volunteer" asp-action="Register" method="post" class="space-y-6">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600 font-medium"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Full Name -->
+                    <div>
+                        <label asp-for="FullName" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                            Full Name <span class="text-red-500">*</span>
+                        </label>
+                        <input asp-for="FullName" placeholder="e.g. Jane Doe" class="w-full text-sm px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" required />
+                        <span asp-validation-for="FullName" class="text-xs text-red-600 mt-1 block"></span>
+                    </div>
+
+                    <!-- Region / Province -->
+                    <div>
+                        <label asp-for="Region" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                            Region / Province <span class="text-red-500">*</span>
+                        </label>
+                        <select asp-for="Region" class="w-full text-sm px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" required>
+                            <option value="">Select your region</option>
+                            <option value="Eastern Cape">Eastern Cape</option>
+                            <option value="Free State">Free State</option>
+                            <option value="Gauteng">Gauteng</option>
+                            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                            <option value="Limpopo">Limpopo</option>
+                            <option value="Mpumalanga">Mpumalanga</option>
+                            <option value="Northern Cape">Northern Cape</option>
+                            <option value="North West">North West</option>
+                            <option value="Western Cape">Western Cape</option>
+                        </select>
+                        <span asp-validation-for="Region" class="text-xs text-red-600 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Skill Category -->
+                    <div>
+                        <label asp-for="SkillCategory" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                            Primary Skill Category <span class="text-red-500">*</span>
+                        </label>
+                        <select asp-for="SkillCategory" class="w-full text-sm px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" required>
+                            <option value="">Select primary skill</option>
+                            <option value="Medical">Medical / First Aid</option>
+                            <option value="Driving">Driving & Logistics</option>
+                            <option value="Food Distribution">Food & Supplies Distribution</option>
+                            <option value="Search & Rescue">Search & Rescue</option>
+                            <option value="Administration">Administration & Support</option>
+                            <option value="Engineering/Technical">Engineering & Infrastructure</option>
+                        </select>
+                        <span asp-validation-for="SkillCategory" class="text-xs text-red-600 mt-1 block"></span>
+                    </div>
+
+                    <!-- Assigned Project -->
+                    <div>
+                        <label asp-for="AssignedProjectId" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                            Assigned Relief Campaign <span class="text-gray-400 font-normal text-none">(Optional)</span>
+                        </label>
+                        <select asp-for="AssignedProjectId" class="w-full text-sm px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                            <option value="">-- General Deployment --</option>
+                            @if (projects != null)
+                            {
+                                foreach (var p in projects)
+                                {
+                                    <option value="@p.ProjectID">@p.Title (@p.Location)</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="AssignedProjectId" class="text-xs text-red-600 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <!-- Availability -->
+                <div>
+                    <label asp-for="Availability" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                        Availability <span class="text-red-500">*</span>
+                    </label>
+                    <select asp-for="Availability" class="w-full text-sm px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" required>
+                        <option value="">Select availability</option>
+                        <option value="Full-Time">Full-Time / Immediate Deployment</option>
+                        <option value="Weekdays">Weekdays Only</option>
+                        <option value="Weekends">Weekends Only</option>
+                        <option value="On-Call">On-Call / Emergency Basis</option>
+                    </select>
+                    <span asp-validation-for="Availability" class="text-xs text-red-600 mt-1 block"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-lg text-sm transition-all duration-150 ease-in-out shadow-sm hover:shadow active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                        Submit Volunteer Application
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-sm font-semibold">
-            @TempData["SuccessMessage"]
-        </div>
-    }
-
-    <form asp-controller="Volunteer" asp-action="Register" method="post" class="bg-gray-50 p-6 sm:p-8 rounded-xl border border-gray-200 space-y-6 shadow-sm">
-        @Html.AntiForgeryToken()
-
-        <!-- Full Name -->
-        <div>
-            <label asp-for="FullName" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Full Name</label>
-            <input asp-for="FullName" required placeholder="John Doe" class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
-            <span asp-validation-for="FullName" class="text-red-500 text-xs"></span>
-        </div>
-
-        <!-- Region / Province -->
-        <div>
-            <label asp-for="Region" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Region / Location</label>
-            <select asp-for="Region" required class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-                <option value="">Select your region</option>
-                <option value="Eastern Cape">Eastern Cape</option>
-                <option value="Free State">Free State</option>
-                <option value="Gauteng">Gauteng</option>
-                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-                <option value="Limpopo">Limpopo</option>
-                <option value="Mpumalanga">Mpumalanga</option>
-                <option value="Northern Cape">Northern Cape</option>
-                <option value="North West">North West</option>
-                <option value="Western Cape">Western Cape</option>
-            </select>
-            <span asp-validation-for="Region" class="text-red-500 text-xs"></span>
-        </div>
-
-        <!-- Skill Category -->
-        <div>
-            <label asp-for="SkillCategory" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Primary Skill Category</label>
-            <select asp-for="SkillCategory" required class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-                <option value="">Select primary skill</option>
-                <option value="Medical">Medical / First Aid</option>
-                <option value="Driving">Driving & Logistics</option>
-                <option value="Food Distribution">Food & Supplies Distribution</option>
-                <option value="Search & Rescue">Search & Rescue</option>
-                <option value="Administration">Administration & Support</option>
-            </select>
-            <span asp-validation-for="SkillCategory" class="text-red-500 text-xs"></span>
-        </div>
-
-        <!-- Availability -->
-        <div>
-            <label asp-for="Availability" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Availability</label>
-            <select asp-for="Availability" required class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-                <option value="Full-Time">Full-Time / Immediate Deployment</option>
-                <option value="Weekdays">Weekdays Only</option>
-                <option value="Weekends">Weekends Only</option>
-                <option value="On-Call">On-Call / Emergency Basis</option>
-            </select>
-            <span asp-validation-for="Availability" class="text-red-500 text-xs"></span>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-lg shadow transition-colors text-sm">
-            Submit Volunteer Registration
-        </button>
-    </form>
 </section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

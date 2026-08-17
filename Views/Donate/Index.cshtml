@@ -1,76 +1,190 @@
-﻿@{
+﻿@model GiftOfTheGivers.Models.Donation
+
+@{
     ViewData["Title"] = "Make a Donation";
+    var preselectedProjectId = Context.Request.Query["projectId"].ToString();
 }
 
-<section class="py-12 bg-white max-w-3xl mx-auto px-4 sm:px-6">
-    <div class="text-center space-y-2 mb-8">
-        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Direct Contribution</span>
-        <h1 class="text-3xl font-extrabold text-gray-900">Make a Donation</h1>
-        <p class="text-sm text-gray-500">Every Rand Reaches Someone in Crisis</p>
-    </div>
+<section class="py-12 bg-gray-50/50 min-h-screen font-sans">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
 
-    <form method="post" asp-controller="Donate" asp-action="Process" class="bg-gray-50 p-6 sm:p-8 rounded-xl border border-gray-200 space-y-6 shadow-sm">
-        <!-- Frequency Switcher -->
-        <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Frequency</label>
-            <div class="grid grid-cols-2 gap-2 bg-gray-200 p-1 rounded-lg text-sm font-semibold">
-                <button type="button" class="bg-emerald-600 text-white py-2 rounded-md shadow-sm">One-Time</button>
-                <button type="button" class="text-gray-700 hover:text-gray-900 py-2">Monthly Recurring</button>
-            </div>
+        <!-- Header Banner -->
+        <div class="text-center space-y-3 mb-8">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Direct Impact Contribution
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">Make a Donation</h1>
+            <p class="text-sm sm:text-base text-gray-600 max-w-xl mx-auto">
+                Every Rand reaches someone in crisis. Provide life-saving aid, emergency meals, and medical supplies today.
+            </p>
         </div>
 
-        <!-- Currency Selector -->
-        <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Currency</label>
-            <select class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-                <option>ZAR — South African Rand (R)</option>
-                <option>USD — United States Dollar ($)</option>
-                <option>EUR — Euro (€)</option>
-            </select>
-        </div>
-
-        <!-- Preset Amount Grid -->
-        <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Select Amount</label>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
-                <button type="button" class="bg-white border border-gray-300 hover:border-emerald-600 py-2.5 rounded-md font-bold text-sm text-gray-800 transition-colors">R100</button>
-                <button type="button" class="bg-white border border-gray-300 hover:border-emerald-600 py-2.5 rounded-md font-bold text-sm text-gray-800 transition-colors">R250</button>
-                <button type="button" class="bg-emerald-600 text-white font-bold py-2.5 rounded-md text-sm shadow-sm">R500</button>
-                <button type="button" class="bg-white border border-gray-300 hover:border-emerald-600 py-2.5 rounded-md font-bold text-sm text-gray-800 transition-colors">R1000</button>
-            </div>
-            <input type="number" name="CustomAmount" placeholder="Or enter custom amount (ZAR)" class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
-        </div>
-
-        <!-- Target Campaign Selection -->
-        <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Direct My Donation To</label>
-            <select class="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-                <option value="general">Where Need is Greatest (General Fund)</option>
-                <option value="kzn-floods">KZN Flood Relief</option>
-                <option value="water-crisis">Water Crisis Intervention</option>
-                <option value="winter-warmth">Winter Warmth Support</option>
-            </select>
-        </div>
-
-        <!-- Form Options & Tax Request -->
-        <div class="space-y-3 pt-2">
-            <label class="flex items-center space-x-3 text-xs font-medium text-gray-700 cursor-pointer">
-                <input type="checkbox" name="IsAnonymous" class="rounded text-emerald-600 focus:ring-emerald-500 h-4 w-4 border-gray-300" />
-                <span>Donate anonymously as guest</span>
-            </label>
-
-            <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-lg flex items-start space-x-3">
-                <input type="checkbox" name="NeedsTaxCertificate" class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 h-4 w-4 border-gray-300" />
-                <div class="text-xs">
-                    <span class="font-bold text-emerald-900 block mb-0.5">Section 18A Tax Certificate Required</span>
-                    <p class="text-emerald-700 leading-normal">Check this box to request an official receipt for tax deductibility in South Africa.</p>
+        <!-- Alert Notification -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 flex items-start gap-3 shadow-sm">
+                <div class="p-1 bg-emerald-600 text-white rounded-lg shrink-0 mt-0.5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-800">Thank You For Your Kindness</h4>
+                    <p class="text-sm font-semibold mt-0.5">@TempData["SuccessMessage"]</p>
                 </div>
             </div>
-        </div>
+        }
 
-        <!-- Submit CTA -->
-        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-lg shadow transition-colors text-sm">
-            Proceed to Payment
-        </button>
-    </form>
+        <!-- Donation Form -->
+        <form method="post" asp-controller="Donate" asp-action="Process" class="bg-white p-6 sm:p-10 rounded-2xl border border-gray-200/80 shadow-xl space-y-8">
+            @Html.AntiForgeryToken()
+
+            <!-- Validation Summary -->
+            <div asp-validation-summary="All" class="text-rose-600 text-xs font-semibold bg-rose-50 p-3 rounded-xl border border-rose-200 space-y-1 empty:hidden"></div>
+
+            <!-- Frequency Switcher -->
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Giving Frequency</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="relative flex items-center justify-center p-3.5 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 has-[:checked]:bg-emerald-50 has-[:checked]:border-emerald-500 has-[:checked]:ring-2 has-[:checked]:ring-emerald-500/20 transition-all group">
+                        <input type="radio" asp-for="Frequency" value="One-Time" class="sr-only" checked />
+                        <span class="text-xs font-extrabold text-gray-700 group-has-[:checked]:text-emerald-800">One-Time Donation</span>
+                    </label>
+                    <label class="relative flex items-center justify-center p-3.5 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 has-[:checked]:bg-emerald-50 has-[:checked]:border-emerald-500 has-[:checked]:ring-2 has-[:checked]:ring-emerald-500/20 transition-all group">
+                        <input type="radio" asp-for="Frequency" value="Monthly" class="sr-only" />
+                        <span class="text-xs font-extrabold text-gray-700 group-has-[:checked]:text-emerald-800">Monthly Recurring</span>
+                    </label>
+                </div>
+                <span asp-validation-for="Frequency" class="text-rose-500 text-xs mt-1 block font-medium"></span>
+            </div>
+
+            <!-- Currency Selector -->
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Currency</label>
+                <div class="relative">
+                    <select id="currencySelect" asp-for="Currency" onchange="updateCurrencySymbol()" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-semibold text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all appearance-none cursor-pointer">
+                        <option value="ZAR">ZAR — South African Rand (R)</option>
+                        <option value="USD">USD — United States Dollar ($)</option>
+                        <option value="EUR">EUR — Euro (€)</option>
+                    </select>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+                <span asp-validation-for="Currency" class="text-rose-500 text-xs mt-1 block font-medium"></span>
+            </div>
+
+            <!-- Amount Input & Quick Presets -->
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Donation Amount</label>
+
+                <!-- Quick Amount Buttons -->
+                <div class="grid grid-cols-4 gap-2 mb-3">
+                    <button type="button" onclick="setPresetAmount(100, this)" class="preset-btn py-2.5 px-3 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-800 transition-all active:scale-95">R100</button>
+                    <button type="button" onclick="setPresetAmount(250, this)" class="preset-btn py-2.5 px-3 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-800 transition-all active:scale-95">R250</button>
+                    <button type="button" onclick="setPresetAmount(500, this)" class="preset-btn py-2.5 px-3 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-800 transition-all active:scale-95">R500</button>
+                    <button type="button" onclick="setPresetAmount(1000, this)" class="preset-btn py-2.5 px-3 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-800 transition-all active:scale-95">R1,000</button>
+                </div>
+
+                <div class="relative">
+                    <div id="currencySymbolPrefix" class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-500 text-sm">R</div>
+                    <input id="amountInput" asp-for="Amount" type="number" step="0.01" min="1" placeholder="Custom amount" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3.5 pl-12 pr-4 text-sm font-extrabold text-gray-900 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" required />
+                </div>
+                <span asp-validation-for="Amount" class="text-rose-500 text-xs mt-1 block font-medium"></span>
+            </div>
+
+            <!-- Target Campaign Selection -->
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Direct My Donation To</label>
+                <div class="relative">
+                    <select name="selectedProjectId" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3.5 px-4 text-sm font-semibold text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all appearance-none cursor-pointer">
+                        <option value="">Where Need is Greatest (General Disaster Fund)</option>
+                        @if (ViewBag.Projects != null)
+                        {
+                            foreach (var project in (IEnumerable<GiftOfTheGivers.Models.ReliefProject>)ViewBag.Projects)
+                            {
+                                var isSelected = project.ProjectID.ToString() == preselectedProjectId;
+                                <option value="@project.ProjectID" selected="@(isSelected ? "selected" : null)">
+                                    @project.Title (@project.Location)
+                                </option>
+                            }
+                        }
+                    </select>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 18A Tax Certificate Checkbox -->
+            <div class="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 space-y-3">
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" id="taxCertToggle" name="RequiresTaxCertificate" onchange="toggleTaxInput()" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-gray-300" />
+                    <span class="text-xs font-bold text-gray-800">I require a Section 18A Tax Certificate for this donation</span>
+                </label>
+
+                <div id="taxInputContainer" class="hidden pt-2 border-t border-emerald-200/50 space-y-2">
+                    <label class="block text-[11px] font-bold text-gray-600 uppercase tracking-wider">RSA ID / Income Tax Reference Number</label>
+                    <input type="text" name="TaxNumber" placeholder="Enter ID or Tax Reference" class="w-full bg-white border border-gray-200 rounded-lg py-2 px-3 text-xs font-semibold text-gray-800 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none" />
+                </div>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 flex flex-wrap items-center justify-around gap-4 text-xs font-semibold text-gray-500">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <span>256-Bit SSL Encrypted</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Section 18A Tax Deductible</span>
+                </div>
+            </div>
+
+            <!-- Submit CTA -->
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-4 px-6 rounded-xl shadow-lg shadow-emerald-900/20 hover:shadow-emerald-900/30 transition-all text-sm flex items-center justify-center gap-2 active:scale-95 cursor-pointer">
+                <span>Proceed to Payment</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+        </form>
+    </div>
 </section>
+
+<!-- Frontend Helper Scripts -->
+<script>
+    function setPresetAmount(val, btnElement) {
+        document.getElementById('amountInput').value = val;
+
+        // Clear active classes from other buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600');
+            btn.classList.add('text-gray-700', 'border-gray-200');
+        });
+
+        // Highlight selected button
+        if (btnElement) {
+            btnElement.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+            btnElement.classList.remove('text-gray-700', 'border-gray-200');
+        }
+    }
+
+    function updateCurrencySymbol() {
+        const currency = document.getElementById('currencySelect').value;
+        const prefix = document.getElementById('currencySymbolPrefix');
+
+        if (currency === 'USD') prefix.textContent = '$';
+        else if (currency === 'EUR') prefix.textContent = '€';
+        else prefix.textContent = 'R';
+    }
+
+    function toggleTaxInput() {
+        const isChecked = document.getElementById('taxCertToggle').checked;
+        const container = document.getElementById('taxInputContainer');
+        if (isChecked) {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+</script>
