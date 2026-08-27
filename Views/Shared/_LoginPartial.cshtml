@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using GiftOfTheGivers.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <div class="flex items-center space-x-2 text-sm font-semibold">
 @if (SignInManager.IsSignedIn(User))

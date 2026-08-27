@@ -1,48 +1,62 @@
-﻿using GiftOfTheGivers.Models;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GiftOfTheGivers.Models;
 
 namespace GiftOfTheGivers.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<User> ApplicationUsers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<ReliefProject> ReliefProjects { get; set; }
         public DbSet<Donation> Donations { get; set; }
+        public DbSet<DonationSchedule> DonationSchedules { get; set; }
+        public DbSet<TaxCertificate> TaxCertificates { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
+        public DbSet<ProjectVolunteer> ProjectVolunteers { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); // MUST be called first
 
-            // Configure decimal precision for financial amounts
-            modelBuilder.Entity<ReliefProject>()
-                .Property(p => p.TargetAmount)
-                .HasColumnType("decimal(18,2)");
+            // 1-to-1: User <-> Employee
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.UserID)
+                .IsUnique();
 
-            modelBuilder.Entity<ReliefProject>()
-                .Property(p => p.RaisedAmount)
-                .HasColumnType("decimal(18,2)");
-
-            // Set null delete behavior on volunteer project assignment
+            // 1-to-1: User <-> Volunteer
             modelBuilder.Entity<Volunteer>()
-                .HasOne(v => v.AssignedProject)
-                .WithMany()
-                .HasForeignKey(v => v.AssignedProjectId)
-                .OnDelete(DeleteBehavior.SetNull);
-        }
+                .HasIndex(v => v.UserID)
+                .IsUnique();
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=tcp:appr6312-pro.database.windows.net,1433;Initial Catalog=APPR6312_POE_DB;Persist Security Info=False;User ID=sqladmin;Password=YOUR_PASSWORD;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;");
-            }
+            // 1-to-1: Donation <-> TaxCertificate
+            modelBuilder.Entity<TaxCertificate>()
+                .HasIndex(t => t.DonationID)
+                .IsUnique();
+
+            // Composite Unique Constraint: ProjectVolunteers
+            modelBuilder.Entity<ProjectVolunteer>()
+                .HasIndex(pv => new { pv.ProjectID, pv.VolunteerID })
+                .IsUnique();
+
+            // Performance Indexes
+            modelBuilder.Entity<Donation>()
+                .HasIndex(d => new { d.UserID, d.DonationDate })
+                .HasDatabaseName("IX_Donations_UserID_DonationDate");
+
+            modelBuilder.Entity<DonationSchedule>()
+                .HasKey(ds => ds.DonationScheduleId);
+
+            modelBuilder.Entity<ProjectVolunteer>()
+                .HasIndex(pv => new { pv.ProjectID, pv.AssignmentStatus })
+                .HasDatabaseName("IX_ProjectVolunteers_ProjectID_Status");
+
+            modelBuilder.Entity<AuditLog>()
+                .HasIndex(a => new { a.EntityName, a.EntityID, a.CreatedDate })
+                .HasDatabaseName("IX_AuditLogs_EntityName_EntityID_CreatedDate");
         }
     }
 }

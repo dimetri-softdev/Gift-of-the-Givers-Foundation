@@ -1,7 +1,7 @@
-﻿using GiftOfTheGivers.Data;
-using GiftOfTheGivers.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using GiftOfTheGivers.Data;
+using GiftOfTheGivers.Models;
 
 namespace GiftOfTheGivers.Controllers
 {
@@ -14,37 +14,57 @@ namespace GiftOfTheGivers.Controllers
             _context = context;
         }
 
-        // GET: /Volunteer/Register (or /Volunteer)
+        // GET: /Volunteer (or /Volunteer/Index)
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            await PopulateProjectsViewBagAsync();
+            return View();
+        }
+
+        // GET: /Volunteer/Register
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            ViewBag.Projects = await _context.ReliefProjects
-                .Where(p => p.Status == "Active")
-                .ToListAsync();
-
-            return View(); // Renders Views/Volunteer/Register.cshtml
+            await PopulateProjectsViewBagAsync();
+            return View("Index");
         }
 
         // POST: /Volunteer/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("FullName,Region,SkillCategory,Availability,AssignedProjectId")] Volunteer volunteer)
+        public async Task<IActionResult> Register(Volunteer model)
         {
             if (ModelState.IsValid)
             {
-                _context.Volunteers.Add(volunteer);
+                _context.Volunteers.Add(model);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Thank you for registering as a volunteer!";
-                return RedirectToAction("Index", "Project");
+                // Create Audit Log entry
+                var auditLog = new AuditLog
+                {
+                    Action = "Volunteer Registered",
+                    EntityName = nameof(Volunteer),
+                    EntityID = model.VolunteerID.ToString(),
+                    CreatedDate = DateTime.UtcNow
+                };
+                _context.AuditLogs.Add(auditLog);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Thank you for registering! Your application has been submitted successfully.";
+                return RedirectToAction(nameof(Index));
             }
 
-            // If validation fails, re-populate dropdown and re-render the Register view
+            // Re-populate dropdown if validation fails
+            await PopulateProjectsViewBagAsync();
+            return View("Index", model);
+        }
+
+        private async Task PopulateProjectsViewBagAsync()
+        {
             ViewBag.Projects = await _context.ReliefProjects
                 .Where(p => p.Status == "Active")
                 .ToListAsync();
-
-            return View(volunteer); // Renders Views/Volunteer/Register.cshtml with model errors
         }
     }
 }

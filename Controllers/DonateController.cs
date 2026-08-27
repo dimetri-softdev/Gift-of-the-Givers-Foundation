@@ -1,27 +1,52 @@
-﻿using GiftOfTheGivers.Data;
-using GiftOfTheGivers.Models;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using GiftOfTheGivers.Data;
+using GiftOfTheGivers.Models;
 
 namespace GiftOfTheGivers.Controllers
 {
     public class DonateController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public DonateController(ApplicationDbContext context)
+        public DonateController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: /Donate
+        // GET: /Donate/Index or /Donate?projectId=1
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? projectId)
         {
-            // Fetch active projects to display in the donation form
-            ViewBag.Projects = _context.ReliefProjects.Where(p => p.Status == "Active").ToList();
-            return View();
+            var donation = new Donation
+            {
+                ReliefProjectId = projectId,
+                Currency = "ZAR",
+                Frequency = "One-Time"
+            };
+
+            // Auto-fill donor details if signed in
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    donation.UserID = user.Id;
+                    donation.DonorName = user.FullName;
+                    donation.DonorEmail = user.Email ?? string.Empty;
+                }
+            }
+
+            // Populate active relief projects for the dropdown
+            ViewBag.Projects = await _context.ReliefProjects.ToListAsync();
+
+            return View(donation);
         }
 
         // POST: /Donate/Process
@@ -29,53 +54,47 @@ namespace GiftOfTheGivers.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Process(Donation donation, int? selectedProjectId)
         {
+            // Map the selected project ID from the dropdown if supplied
+            if (selectedProjectId.HasValue && selectedProjectId.Value > 0)
+            {
+                donation.ReliefProjectId = selectedProjectId.Value;
+            }
+
+            // 1. Auto-assign logged-in user details if missing
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    donation.UserID = user.Id;
+                    if (string.IsNullOrWhiteSpace(donation.DonorName)) donation.DonorName = user.FullName;
+                    if (string.IsNullOrWhiteSpace(donation.DonorEmail)) donation.DonorEmail = user.Email ?? string.Empty;
+
+                    ModelState.Remove(nameof(Donation.DonorName));
+                    ModelState.Remove(nameof(Donation.DonorEmail));
+                }
+            }
+
+            // 2. Remove EF Core navigation properties from model validation state
+            ModelState.Remove(nameof(Donation.ReliefProject));
+            ModelState.Remove(nameof(Donation.User));
+            ModelState.Remove(nameof(Donation.DonationSchedule));
+            ModelState.Remove(nameof(Donation.TaxCertificate));
+
             if (ModelState.IsValid)
             {
-                donation.DonationDate = DateTime.Now;
-
-                // Auto-generate Section 18A Tax Certificate Reference Code
-                if (string.IsNullOrEmpty(donation.TaxCertificateCode))
-                {
-                    donation.TaxCertificateCode = $"TAX-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
-                }
+                donation.DonationDate = DateTime.UtcNow;
 
                 _context.Donations.Add(donation);
-
-                // Update RaisedAmount on ReliefProject if selected
-                if (selectedProjectId.HasValue)
-                {
-                    var project = await _context.ReliefProjects.FindAsync(selectedProjectId.Value);
-                    if (project != null)
-                    {
-                        project.RaisedAmount += donation.Amount;
-                        donation.ReliefProjectId = selectedProjectId.Value;
-                    }
-                }
-
                 await _context.SaveChangesAsync();
 
-                // Redirect to Confirmation screen with the new Donation ID
-                return RedirectToAction(nameof(Confirmation), new { id = donation.Id });
+                TempData["SuccessMessage"] = "Your donation was processed successfully!";
+                return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Projects = _context.ReliefProjects.Where(p => p.Status == "Active").ToList();
+            // Reload project dropdown list if returning view due to validation errors
+            ViewBag.Projects = await _context.ReliefProjects.ToListAsync();
             return View("Index", donation);
-        }
-
-        // GET: /Donate/Confirmation/{id}
-        [HttpGet]
-        public async Task<IActionResult> Confirmation(int id)
-        {
-            var donation = await _context.Donations
-                .Include(d => d.ReliefProject)
-                .FirstOrDefaultAsync(d => d.Id == id);
-
-            if (donation == null)
-            {
-                return NotFound();
-            }
-
-            return View(donation);
         }
     }
 }

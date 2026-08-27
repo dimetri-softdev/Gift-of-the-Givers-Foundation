@@ -4,6 +4,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<NoWarn>$(NoWarn);NU1901;NU1903</NoWarn>
 		<UserSecretsId>aspnet-GiftOfTheGivers-12345678</UserSecretsId>
 	</PropertyGroup>
 

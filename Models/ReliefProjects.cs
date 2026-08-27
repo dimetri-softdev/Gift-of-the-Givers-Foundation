@@ -14,6 +14,12 @@ namespace GiftOfTheGivers.Models
         [Required, StringLength(100)]
         public string Location { get; set; } = string.Empty;
 
+        [StringLength(500)]
+        public string? ImageUrl { get; set; }
+
+        [StringLength(500)]
+        public string? VideoUrl { get; set; }
+
         [Required]
         public string Status { get; set; } = "Active"; // Active, Completed, Pending
 
