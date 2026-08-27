@@ -259,14 +259,14 @@ namespace GiftOfTheGivers.Migrations
 
             modelBuilder.Entity("GiftOfTheGivers.Models.TaxCertificate", b =>
                 {
-                    b.Property<int>("TaxCertificateID")
+                    b.Property<int>("CertificateID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxCertificateID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CertificateID"));
 
-                    b.Property<Guid>("CertificateCode")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal>("CertifiedAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("DonationID")
                         .HasColumnType("int");
@@ -274,7 +274,17 @@ namespace GiftOfTheGivers.Migrations
                     b.Property<DateTime>("IssuedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("TaxCertificateID");
+                    b.Property<string>("TaxCertificateNumber")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TaxNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CertificateID");
 
                     b.HasIndex("DonationID")
                         .IsUnique();

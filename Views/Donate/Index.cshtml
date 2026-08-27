@@ -137,7 +137,8 @@
             <!-- Section 18A Tax Certificate Checkbox -->
             <div class="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 space-y-3">
                 <label class="flex items-center gap-3 cursor-pointer">
-                    <input type="checkbox" id="taxCertToggle" name="RequiresTaxCertificate" onchange="toggleTaxInput()" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-gray-300" />
+                    <input type="checkbox" id="taxCertToggle" name="RequiresTaxCertificate" value="true" onchange="toggleTaxInput()" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-gray-300" />
+                    <input type="hidden" name="RequiresTaxCertificate" value="false" />
                     <span class="text-xs font-bold text-gray-800">I require a Section 18A Tax Certificate for this donation</span>
                 </label>
 

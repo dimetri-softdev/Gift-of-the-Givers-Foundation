@@ -15,10 +15,19 @@ public class HomeController : Controller
         _context = context;
     }
 
+    // GET: /Home/About/Privacy/Error
+    [HttpGet]
+        
     public async Task<IActionResult> Index()
     {
         var projects = await _context.ReliefProjects.ToListAsync();
         return View(projects);
+    }
+    public async Task<IActionResult> About()
+    {
+        // Fetch count of active relief projects for dynamic metric display
+        ViewBag.ActiveProjectsCount = await _context.ReliefProjects.CountAsync();
+        return View();
     }
 
     public IActionResult Privacy()

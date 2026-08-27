@@ -92,6 +92,11 @@
                    class="px-3.5 py-2 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition-all no-underline">
                     Home
                 </a>
+                <!-- If the action is in DonateController.cs -->
+                <a asp-controller="Home" asp-action="About"
+                   class="text-gray-700 hover:text-emerald-600 font-medium text-sm transition-colors">
+                    About Us
+                </a>
                 <a asp-controller="Project" asp-action="Index"
                    class="px-3.5 py-2 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition-all no-underline">
                     Disaster Projects
@@ -146,6 +151,11 @@
             <a asp-controller="Home" asp-action="Index"
                class="block px-3 py-2.5 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors no-underline">
                 <i class="fa-solid fa-house w-6 text-slate-400"></i> Home
+            </a>
+            <!-- If the action is in HomeController.cs -->
+            <a asp-controller="Home" asp-action="About"
+               class="text-gray-700 hover:text-emerald-600 font-medium text-sm transition-colors">
+                About Us
             </a>
             <a asp-controller="Project" asp-action="Index"
                class="block px-3 py-2.5 rounded-lg text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors no-underline">
