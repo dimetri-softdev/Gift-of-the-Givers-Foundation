@@ -8,24 +8,26 @@ namespace GiftOfTheGivers.Models
     {
         // Primary Key & Legacy Aliases
         public int DonationID { get; set; }
+
         [NotMapped]
         public int Id { get => DonationID; set => DonationID = value; }
 
-        // User Link required by ApplicationDbContext & LINQ queries
+        // User Link (Nullable to allow guest & anonymous donations)
         public int? UserID { get; set; }
 
-        // Donor Details
-        [Required(ErrorMessage = "Donor name is required.")]
+        // Donor Details (Optional/Nullable to support Anonymous donations)
         [StringLength(100)]
-        public string DonorName { get; set; } = string.Empty;
+        public string? DonorName { get; set; }
 
-        [Required(ErrorMessage = "Donor email is required.")]
         [EmailAddress]
-        public string DonorEmail { get; set; } = string.Empty;
+        public string? DonorEmail { get; set; }
+
+        // Anonymous Flag
+        public bool IsAnonymous { get; set; } = false;
 
         // Financial & Frequency Properties
         [Column(TypeName = "decimal(18,2)")]
-        [Range(1.00, 1000000.00, ErrorMessage = "Please enter a valid amount.")]
+        [Range(1.00, 1000000.00, ErrorMessage = "Please enter a valid donation amount.")]
         public decimal Amount { get; set; }
 
         [Required, StringLength(3)]
@@ -41,8 +43,6 @@ namespace GiftOfTheGivers.Models
             set => Frequency = value;
         }
 
-        public bool IsAnonymous { get; set; } = false;
-
         // Date Properties
         public DateTime DonationDate { get; set; } = DateTime.UtcNow;
 
@@ -53,7 +53,7 @@ namespace GiftOfTheGivers.Models
             set => DonationDate = value;
         }
 
-        // Tax Certificate & Foreign Keys
+        // Tax Certificate & Relief Project Foreign Keys
         public string? TaxCertificateCode { get; set; }
 
         public int? ReliefProjectId { get; set; }
@@ -61,6 +61,7 @@ namespace GiftOfTheGivers.Models
         [ForeignKey("ReliefProjectId")]
         public ReliefProject? ReliefProject { get; set; }
 
+        // Navigation Properties
         public User? User { get; set; }
         public DonationSchedule? DonationSchedule { get; set; }
         public TaxCertificate? TaxCertificate { get; set; }

@@ -80,11 +80,9 @@ namespace GiftOfTheGivers.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DonorEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DonorName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

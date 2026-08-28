@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Make a Donation";
-    var preselectedProjectId = Context.Request.Query["projectId"].ToString();
+    var preselectedProjectId = Model.ReliefProjectId?.ToString() ?? Context.Request.Query["projectId"].ToString();
 }
 
 <section class="py-12 bg-gray-50/50 min-h-screen font-sans">
@@ -43,18 +43,29 @@
             <!-- Validation Summary -->
             <div asp-validation-summary="All" class="text-rose-600 text-xs font-semibold bg-rose-50 p-3 rounded-xl border border-rose-200 space-y-1 empty:hidden"></div>
 
+            <!-- Anonymity Option Checkbox -->
+            <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" asp-for="IsAnonymous" id="anonymousToggle" onchange="toggleAnonymousFields()" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-gray-300" />
+                    <div>
+                        <span class="text-xs font-bold text-gray-800 block">Donate Anonymously</span>
+                        <span class="text-[11px] text-gray-500 block">Your identity and contact details will not be displayed on public feeds or receipts.</span>
+                    </div>
+                </label>
+            </div>
+
             <!-- Donor Information Section -->
-            <div class="space-y-4">
+            <div id="donorDetailsSection" class="space-y-4">
                 <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Your Personal Details</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label asp-for="DonorName" class="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
-                        <input asp-for="DonorName" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-semibold text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" placeholder="John Doe" />
+                        <input asp-for="DonorName" id="donorNameInput" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-semibold text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" placeholder="John Doe" />
                         <span asp-validation-for="DonorName" class="text-rose-500 text-xs mt-1 block font-medium"></span>
                     </div>
                     <div>
                         <label asp-for="DonorEmail" class="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
-                        <input asp-for="DonorEmail" type="email" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-semibold text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" placeholder="john@example.com" />
+                        <input asp-for="DonorEmail" id="donorEmailInput" type="email" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-semibold text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" placeholder="john@example.com" />
                         <span asp-validation-for="DonorEmail" class="text-rose-500 text-xs mt-1 block font-medium"></span>
                     </div>
                 </div>
@@ -171,16 +182,24 @@
 
 <!-- Frontend Helper Scripts -->
 <script>
+    function toggleAnonymousFields() {
+        const isAnonymous = document.getElementById('anonymousToggle').checked;
+        const donorSection = document.getElementById('donorDetailsSection');
+        if (isAnonymous) {
+            donorSection.classList.add('hidden');
+        } else {
+            donorSection.classList.remove('hidden');
+        }
+    }
+
     function setPresetAmount(val, btnElement) {
         document.getElementById('amountInput').value = val;
 
-        // Clear active classes from other buttons
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600');
             btn.classList.add('text-gray-700', 'border-gray-200');
         });
 
-        // Highlight selected button
         if (btnElement) {
             btnElement.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
             btnElement.classList.remove('text-gray-700', 'border-gray-200');
@@ -205,4 +224,7 @@
             container.classList.add('hidden');
         }
     }
+
+    // Run initial state check on load
+    document.addEventListener('DOMContentLoaded', toggleAnonymousFields);
 </script>

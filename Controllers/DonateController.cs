@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ namespace GiftOfTheGivers.Controllers
             _userManager = userManager;
         }
 
-        // GET: /Donate/Index or /Donate?projectId=1
+        // GET: /Donate or /Donate?projectId=1
         [HttpGet]
         public async Task<IActionResult> Index(int? projectId)
         {
@@ -28,7 +27,8 @@ namespace GiftOfTheGivers.Controllers
             {
                 ReliefProjectId = projectId,
                 Currency = "ZAR",
-                Frequency = "One-Time"
+                Frequency = "One-Time",
+                IsAnonymous = false
             };
 
             // Auto-fill donor details if signed in
@@ -43,9 +43,7 @@ namespace GiftOfTheGivers.Controllers
                 }
             }
 
-            // Populate active relief projects for the dropdown
             ViewBag.Projects = await _context.ReliefProjects.ToListAsync();
-
             return View(donation);
         }
 
@@ -53,24 +51,34 @@ namespace GiftOfTheGivers.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Process(
-            Donation donation,
-            int? selectedProjectId,
+            [Bind("DonationID,DonorName,DonorEmail,IsAnonymous,Amount,Currency,Frequency,ReliefProjectId")] Donation donation,
             [FromForm(Name = "RequiresTaxCertificate")] bool requiresTaxCertificate,
             [FromForm(Name = "TaxNumber")] string? taxNumber)
         {
-            // Map the selected project ID from the dropdown if supplied
-            if (selectedProjectId.HasValue && selectedProjectId.Value > 0)
-            {
-                donation.ReliefProjectId = selectedProjectId.Value;
-            }
-
-            // 1. Auto-assign logged-in user details if missing
+            // 1. Handle Logged-In User Association & Anonymity Logic
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
                 if (user != null)
                 {
                     donation.UserID = user.Id;
+                }
+            }
+
+            if (donation.IsAnonymous)
+            {
+                // Clear identifying donor information for anonymous contributions
+                donation.DonorName = "Anonymous";
+                donation.DonorEmail = null;
+
+                ModelState.Remove(nameof(Donation.DonorName));
+                ModelState.Remove(nameof(Donation.DonorEmail));
+            }
+            else if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
                     if (string.IsNullOrWhiteSpace(donation.DonorName)) donation.DonorName = user.FullName;
                     if (string.IsNullOrWhiteSpace(donation.DonorEmail)) donation.DonorEmail = user.Email ?? string.Empty;
 
@@ -82,7 +90,7 @@ namespace GiftOfTheGivers.Controllers
             // 2. Custom validation for tax certificate field
             if (requiresTaxCertificate && string.IsNullOrWhiteSpace(taxNumber))
             {
-                ModelState.AddModelError("TaxNumber", "Tax reference number or RSA ID is required for a Tax Certificate.");
+                ModelState.AddModelError("TaxNumber", "Tax reference number or RSA ID is required for a Section 18A Tax Certificate.");
             }
 
             // 3. Remove EF Core navigation properties from model validation state
@@ -95,8 +103,21 @@ namespace GiftOfTheGivers.Controllers
             {
                 donation.DonationDate = DateTime.UtcNow;
 
+                // 🟢 FIX: Fetch and update the allocated ReliefProject's RaisedAmount
+                if (donation.ReliefProjectId.HasValue)
+                {
+                    var project = await _context.ReliefProjects
+                        .FirstOrDefaultAsync(p => p.ProjectID == donation.ReliefProjectId.Value);
+
+                    if (project != null)
+                    {
+                        project.RaisedAmount += donation.Amount;
+                        _context.ReliefProjects.Update(project);
+                    }
+                }
+
                 _context.Donations.Add(donation);
-                await _context.SaveChangesAsync(); // Saves first so EF generates donation.DonationID
+                await _context.SaveChangesAsync();
 
                 // 4. Generate & save Tax Certificate if opted in
                 if (requiresTaxCertificate && !string.IsNullOrWhiteSpace(taxNumber))
@@ -113,16 +134,14 @@ namespace GiftOfTheGivers.Controllers
                     };
 
                     _context.TaxCertificates.Add(certificate);
-
-                    // Assign certificate code directly onto donation model for Confirmation view binding
                     donation.TaxCertificateCode = certificateCode;
                     await _context.SaveChangesAsync();
                 }
 
+                TempData["SuccessMessage"] = "Thank you for your generous contribution! Your donation has been recorded.";
                 return RedirectToAction(nameof(Confirmation), new { id = donation.DonationID });
             }
 
-            // Reload project dropdown list if returning view due to validation errors
             ViewBag.Projects = await _context.ReliefProjects.ToListAsync();
             return View("Index", donation);
         }
@@ -140,7 +159,6 @@ namespace GiftOfTheGivers.Controllers
                 return NotFound();
             }
 
-            // Security check: restrict viewing to owner if logged in
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -148,6 +166,14 @@ namespace GiftOfTheGivers.Controllers
                 {
                     return Forbid();
                 }
+            }
+
+            var taxCert = await _context.TaxCertificates
+                .FirstOrDefaultAsync(tc => tc.DonationID == id);
+
+            if (taxCert != null)
+            {
+                donation.TaxCertificateCode = taxCert.TaxCertificateNumber;
             }
 
             return View(donation);
