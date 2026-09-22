@@ -45,10 +45,12 @@ namespace GiftOfTheGivers.Controllers
                 {
                     Action = "Volunteer Registered",
                     EntityName = nameof(Volunteer),
-                    EntityID = model.VolunteerID.ToString(),
+                    EntityID = model.VolunteerID, // FIX: assign int, not string
                     CreatedDate = DateTime.UtcNow
                 };
-                _context.AuditLogs.Add(auditLog);
+
+                // FIX: Use Set<AuditLog>() since AuditLogs DbSet is missing
+                _context.Set<AuditLog>().Add(auditLog);
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Thank you for registering! Your application has been submitted successfully.";
@@ -66,5 +68,15 @@ namespace GiftOfTheGivers.Controllers
                 .Where(p => p.Status == "Active")
                 .ToListAsync();
         }
+    }
+
+    public class AuditLog
+    {
+        public int AuditLogID { get; set; }
+        public string EntityName { get; set; } = string.Empty;
+        public int EntityID { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string? Details { get; set; }
+        public string? Action { get; set; }
     }
 }
