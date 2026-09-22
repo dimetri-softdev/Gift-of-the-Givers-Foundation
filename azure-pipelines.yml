@@ -30,7 +30,7 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-restore'
+    arguments: '--configuration $(buildConfiguration)'
 
 # 4. Run Unit Tests (if available)
 - task: DotNetCoreCLI@2
@@ -38,4 +38,4 @@ steps:
   inputs:
     command: 'test'
     projects: '**/*[Tt]est*/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build'
+    arguments: '--configuration $(buildConfiguration)'
