@@ -1,0 +1,45 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+# 1. Setup .NET SDK 8.x
+- task: UseDotNet@2
+  displayName: 'Use .NET SDK 8.x'
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+# 2. Restore Dependencies
+- task: DotNetCoreCLI@2
+  displayName: 'Restore NuGet Packages'
+  inputs:
+    command: 'restore'
+    projects: |
+      GiftOfTheGivers.csproj
+      GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
+
+# 3. Build Web App & Functions explicitly
+- task: DotNetCoreCLI@2
+  displayName: 'Build Solution (Release)'
+  inputs:
+    command: 'build'
+    projects: |
+      GiftOfTheGivers.csproj
+      GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
+    arguments: '--configuration $(buildConfiguration)'
+
+# 4. Run Unit Tests (if available)
+- task: DotNetCoreCLI@2
+  displayName: 'Run Unit Tests'
+  inputs:
+    command: 'test'
+    projects: '**/*[Tt]est*/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
