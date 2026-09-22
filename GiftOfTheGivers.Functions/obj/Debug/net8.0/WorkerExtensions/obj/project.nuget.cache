@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eH5rKzBMkPQ=",
+  "dgSpecHash": "LZsiqoH5BfE=",
   "success": true,
-  "projectFilePath": "C:\\projects\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj",
+  "projectFilePath": "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Double G\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.8\\microsoft.aspnet.webapi.client.5.2.8.nupkg.sha512",
     "C:\\Users\\Double G\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

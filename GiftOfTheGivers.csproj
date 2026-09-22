@@ -1,11 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<NoWarn>$(NoWarn);NU1901;NU1903;NU1608</NoWarn>
 		<UserSecretsId>aspnet-GiftOfTheGivers-12345678</UserSecretsId>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="GiftOfTheGivers.Functions\**" />
+		<Content Remove="GiftOfTheGivers.Functions\**" />
+		<None Remove="GiftOfTheGivers.Functions\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />

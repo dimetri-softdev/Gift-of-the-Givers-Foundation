@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rd6dwMLZ0/Y=",
+  "dgSpecHash": "oI9MRJa+QrI=",
   "success": true,
-  "projectFilePath": "C:\\projects\\GiftOfTheGivers.Functions\\GiftOfTheGivers.Functions.csproj",
+  "projectFilePath": "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\GiftOfTheGivers.Functions.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Double G\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\Double G\\.nuget\\packages\\google.protobuf\\3.28.0\\google.protobuf.3.28.0.nupkg.sha512",

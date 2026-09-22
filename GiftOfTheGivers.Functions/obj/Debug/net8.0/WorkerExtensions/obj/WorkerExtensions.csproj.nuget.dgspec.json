@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projects\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj": {}
+    "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj": {}
   },
   "projects": {
-    "C:\\projects\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj": {
+    "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj",
+        "projectUniqueName": "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj",
         "projectName": "Microsoft.Azure.Functions.Worker.Extensions",
-        "projectPath": "C:\\projects\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj",
+        "projectPath": "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\WorkerExtensions.csproj",
         "packagesPath": "C:\\Users\\Double G\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\obj\\",
+        "outputPath": "C:\\projects\\Gift-of-the-Givers-Foundation\\GiftOfTheGivers.Functions\\obj\\Debug\\net8.0\\WorkerExtensions\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
