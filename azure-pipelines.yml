@@ -22,7 +22,9 @@ steps:
   displayName: 'Restore NuGet Packages'
   inputs:
     command: 'restore'
-    projects: 'src/**/*.csproj'
+    projects: |
+      GiftOfTheGivers.csproj
+      GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
 
 # 3. Build Web App & Functions explicitly
 - task: DotNetCoreCLI@2
