@@ -33,6 +33,6 @@ namespace GiftOfTheGivers.Models
 
         // Navigation Properties for Many-to-Many junction table
         public User? User { get; set; }
-        public ICollection<ProjectVolunteer> ProjectVolunteers { get; set; } = new List<ProjectVolunteer>();
+        // public ICollection<ProjectVolunteer> ProjectVolunteers { get; set; } = new List<ProjectVolunteer>();
     }
 }

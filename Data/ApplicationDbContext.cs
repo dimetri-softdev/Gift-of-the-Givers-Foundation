@@ -9,14 +9,14 @@ namespace GiftOfTheGivers.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<Employee> Employees { get; set; }
+        // public DbSet<Employee> Employees { get; set; }
         public DbSet<ReliefProject> ReliefProjects { get; set; }
         public DbSet<Donation> Donations { get; set; }
-        public DbSet<DonationSchedule> DonationSchedules { get; set; }
+        // public DbSet<DonationSchedule> DonationSchedules { get; set; }
         public DbSet<TaxCertificate> TaxCertificates { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<ProjectVolunteer> ProjectVolunteers { get; set; }
-        public DbSet<AuditLog> AuditLogs { get; set; }
+        // public DbSet<AuditLog> AuditLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace GiftOfTheGivers.Data
                 .HasDatabaseName("IX_Donations_UserID_DonationDate");
 
             modelBuilder.Entity<DonationSchedule>()
-                .HasKey(ds => ds.DonationScheduleId);
+                .HasKey(ds => ds.DonationScheduleID);
 
             modelBuilder.Entity<ProjectVolunteer>()
                 .HasIndex(pv => new { pv.ProjectID, pv.AssignmentStatus })

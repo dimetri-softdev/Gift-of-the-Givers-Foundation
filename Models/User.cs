@@ -20,10 +20,10 @@ namespace GiftOfTheGivers.Models
         public string Role { get; set; } = "Donor"; // Admin, Employee, Donor, Volunteer
 
         // Navigation Properties
-        public Employee? Employee { get; set; }
+        // public Employee? Employee { get; set; }
         public Volunteer? Volunteer { get; set; }
         public ICollection<Donation> Donations { get; set; } = new List<Donation>();
         public ICollection<ReliefProject> ReliefProjects { get; set; } = new List<ReliefProject>();
-        public ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
+        // public ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
     }
 }
