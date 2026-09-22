@@ -22,14 +22,16 @@ steps:
   displayName: 'Restore NuGet Packages'
   inputs:
     command: 'restore'
-    projects: '**/*.csproj'
+    projects: 'src/**/*.csproj'
 
-# 3. Build Solution
+# 3. Build Web App & Functions explicitly
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution (Release)'
   inputs:
     command: 'build'
-    projects: '**/*.csproj'
+    projects: |
+      GiftOfTheGivers.csproj
+      GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
     arguments: '--configuration $(buildConfiguration)'
 
 # 4. Run Unit Tests (if available)
