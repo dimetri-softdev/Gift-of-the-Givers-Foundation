@@ -25,8 +25,9 @@ steps:
     projects: |
       GiftOfTheGivers.csproj
       GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
+      GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj
 
-# 3. Build Web App & Functions explicitly
+# 3. Build Web App, Functions & Tests explicitly
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution (Release)'
   inputs:
@@ -34,12 +35,13 @@ steps:
     projects: |
       GiftOfTheGivers.csproj
       GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
+      GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj
     arguments: '--configuration $(buildConfiguration)'
 
-# 4. Run Unit Tests (if available)
+# 4. Run Unit Tests (Direct Path)
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
   inputs:
     command: 'test'
-    projects: '**/*[Tt]est*/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    projects: 'GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-build'
