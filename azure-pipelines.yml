@@ -17,31 +17,25 @@ steps:
     packageType: 'sdk'
     version: '8.x'
 
-# 2. Restore Dependencies
+# 2. Restore Dependencies for the Whole Solution
 - task: DotNetCoreCLI@2
   displayName: 'Restore NuGet Packages'
   inputs:
     command: 'restore'
-    projects: |
-      GiftOfTheGivers.csproj
-      GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
-      GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj
+    projects: '**/*.sln'
 
-# 3. Build Web App, Functions & Tests explicitly
+# 3. Build Solution
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution (Release)'
   inputs:
     command: 'build'
-    projects: |
-      GiftOfTheGivers.csproj
-      GiftOfTheGivers.Functions/GiftOfTheGivers.Functions.csproj
-      GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj
+    projects: '**/*.sln'
     arguments: '--configuration $(buildConfiguration)'
 
-# 4. Run Unit Tests (Direct Path)
+# 4. Run Unit Tests
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
   inputs:
     command: 'test'
-    projects: 'GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj'
+    projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration) --no-build'
