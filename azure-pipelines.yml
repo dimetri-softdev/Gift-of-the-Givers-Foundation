@@ -17,7 +17,7 @@ steps:
     packageType: 'sdk'
     version: '8.x'
 
-# 2. Restore Dependencies for the Whole Solution
+# 2. Restore Dependencies for Solution
 - task: DotNetCoreCLI@2
   displayName: 'Restore NuGet Packages'
   inputs:
@@ -30,12 +30,12 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.sln'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
 
 # 4. Run Unit Tests
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
   inputs:
     command: 'test'
-    projects: '**/*Tests/*.csproj'
+    projects: 'GiftOfTheGivers.Tests/GiftOfTheGivers.Tests.csproj'
     arguments: '--configuration $(buildConfiguration) --no-build'
