@@ -11,6 +11,9 @@
 		<Compile Remove="GiftOfTheGivers.Functions\**" />
 		<Content Remove="GiftOfTheGivers.Functions\**" />
 		<None Remove="GiftOfTheGivers.Functions\**" />
+		<Compile Remove="GiftOfTheGivers.Tests\**" />
+		<Content Remove="GiftOfTheGivers.Tests\**" />
+		<None Remove="GiftOfTheGivers.Tests\**" />
 	</ItemGroup>
 
 	<ItemGroup>
