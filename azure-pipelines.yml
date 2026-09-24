@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET 8 SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- script: dotnet restore
+  displayName: 'Restore NuGet Packages'
+
+- script: dotnet build --configuration Release --no-restore
+  displayName: 'Build Solution'
+
+- script: dotnet test --configuration Release --no-build
+  displayName: 'Run Tests'
