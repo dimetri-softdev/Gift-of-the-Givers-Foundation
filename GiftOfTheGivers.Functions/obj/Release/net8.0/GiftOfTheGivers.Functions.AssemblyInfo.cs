@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GiftOfTheGivers.Functions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05f3e70ace9d139a19870fb2e42b03d3a6d26bc8")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aabff8a5bd705dd254bbc1185daab02d990ba9d3")]
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("GiftOfTheGivers.Functions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GiftOfTheGivers.Functions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
