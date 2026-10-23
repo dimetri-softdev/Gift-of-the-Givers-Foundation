@@ -14,9 +14,13 @@
 		<Compile Remove="GiftOfTheGivers.Tests\**" />
 		<Content Remove="GiftOfTheGivers.Tests\**" />
 		<None Remove="GiftOfTheGivers.Tests\**" />
+		<Compile Remove="GiftOfTheGivers.Helpers\**" />
+		<Content Remove="GiftOfTheGivers.Helpers\**" />
+		<None Remove="GiftOfTheGivers.Helpers\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="GiftOfTheGivers.Helpers\GiftOfTheGivers.Helpers.csproj" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />

@@ -41,7 +41,6 @@
     </script>
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GiftOfTheGivers.styles.css" asp-append-version="true" />
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
 
@@ -110,7 +109,7 @@
                     Volunteer
                 </a>
 
-                @if (User.IsInRole("Employee"))
+                @if (User.IsInRole("Employee") || User.IsInRole("Admin"))
                 {
                     <a asp-controller="Employee" asp-action="Index"
                        class="ml-2 inline-flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-emerald-400 font-bold px-3.5 py-2 rounded-lg text-xs shadow-sm transition-all no-underline">
@@ -170,7 +169,7 @@
                 <i class="fa-solid fa-users w-6 text-slate-400"></i> Volunteer
             </a>
 
-            @if (User.IsInRole("Employee"))
+            @if (User.IsInRole("Employee") || User.IsInRole("Admin"))
             {
                 <a asp-controller="Employee" asp-action="Index"
                    class="block px-3 py-2.5 rounded-lg text-base font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors no-underline">
@@ -363,5 +362,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-

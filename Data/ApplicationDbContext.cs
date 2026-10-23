@@ -34,6 +34,9 @@ namespace GiftOfTheGivers.Data
 
             // 1-to-1: Donation <-> TaxCertificate
             modelBuilder.Entity<TaxCertificate>()
+                .HasKey(t => t.CertificateID);
+
+            modelBuilder.Entity<TaxCertificate>()
                 .HasIndex(t => t.DonationID)
                 .IsUnique();
 

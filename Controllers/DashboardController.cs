@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GiftOfTheGivers.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Employee,Admin")]
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +24,7 @@ namespace GiftOfTheGivers.Controllers
 
             // Sum donations in the last 30 days using DonationDate
             ViewBag.MonthlyDonationsTotal = await _context.Donations
-                .Where(d => d.DonationDate >= DateTime.Now.AddDays(-30))
+                .Where(d => d.Currency == "ZAR" && d.DonationDate >= DateTime.Now.AddDays(-30))
                 .SumAsync(d => (decimal?)d.Amount) ?? 0;
 
             // Fetch volunteers with assigned project

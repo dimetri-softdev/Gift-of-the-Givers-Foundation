@@ -1,0 +1,115 @@
+@model IEnumerable<GiftOfTheGivers.Models.ReliefProject>
+
+@{
+    ViewData["Title"] = "Disaster Relief Projects";
+    var searchString = ViewBag.SearchString as string;
+}
+
+<section class="min-h-screen bg-gray-50 py-12 sm:py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div class="max-w-2xl space-y-3">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-700">Live Operations</span>
+                <h1 class="text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">Active Relief Operations</h1>
+                <p class="text-sm leading-relaxed text-gray-600 sm:text-base">
+                    Explore ongoing emergency response drives, monitor fundraising milestones, and contribute aid directly where it is needed most.
+                </p>
+            </div>
+
+            <form asp-controller="Project" asp-action="Index" method="get" role="search" class="flex w-full gap-2 sm:max-w-md">
+                <label for="searchString" class="sr-only">Search operations by title or location</label>
+                <input id="searchString" name="searchString" value="@searchString" type="text"
+                       placeholder="Search operations or location..."
+                       class="min-w-0 flex-1 rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-200" />
+                <button type="submit"
+                        class="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                    Search
+                </button>
+            </form>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
+                @foreach (var project in Model)
+                {
+                    var progressPercent = project.TargetAmount > 0
+                        ? Math.Min(100.0, Math.Max(0.0, Math.Round((double)(project.RaisedAmount / project.TargetAmount * 100m), 1)))
+                        : 0.0;
+
+                    <article class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                        <div class="relative h-48 overflow-hidden bg-gray-900">
+                            @if (!string.IsNullOrWhiteSpace(project.ImageUrl))
+                            {
+                                <img src="@project.ImageUrl" alt="@project.Title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                            }
+                            else
+                            {
+                                <div class="flex h-full items-center justify-center bg-gradient-to-br from-emerald-900 to-slate-900 text-emerald-100">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Relief operation</span>
+                                </div>
+                            }
+                            <span class="absolute left-4 top-4 rounded-full @(project.Status == "Active" ? "bg-emerald-600" : "bg-slate-700") px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white">
+                                @project.Status
+                            </span>
+                        </div>
+
+                        <div class="flex flex-1 flex-col p-6">
+                            <h3 class="text-lg font-black leading-snug text-gray-900">@project.Title</h3>
+                            <p class="mt-2 flex items-center gap-2 text-sm text-gray-600">
+                                <span aria-hidden="true" class="text-emerald-700">●</span>
+                                @project.Location
+                            </p>
+
+                            <div class="mt-6">
+                                <div class="mb-2 flex items-center justify-between text-xs font-semibold">
+                                    <span class="text-gray-900 font-black">R @project.RaisedAmount.ToString("N0") <span class="font-normal text-gray-400">/ R @project.TargetAmount.ToString("N0")</span></span>
+                                    <span class="text-emerald-800">@progressPercent.ToString("0.#")%</span>
+                                </div>
+                                <div class="h-2.5 overflow-hidden rounded-full bg-gray-100">
+                                    <div class="h-full rounded-full bg-emerald-600" style="width: @(progressPercent.ToString("0.#"))%"></div>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(project.VideoUrl))
+                            {
+                                <a href="@project.VideoUrl" target="_blank" rel="noopener noreferrer"
+                                   class="mt-4 text-sm font-semibold text-emerald-700 underline hover:text-emerald-900">
+                                    Watch campaign video
+                                </a>
+                            }
+
+                            <div class="mt-auto grid grid-cols-2 gap-3 pt-6">
+                                <a asp-controller="Donate" asp-action="Index" asp-route-projectId="@project.ProjectID"
+                                   class="rounded-xl bg-amber-400 px-4 py-3 text-center text-xs font-extrabold text-gray-950 transition hover:bg-amber-500">
+                                    Donate
+                                </a>
+                                <a asp-controller="Volunteer" asp-action="Register" asp-route-projectId="@project.ProjectID"
+                                   class="rounded-xl border border-gray-300 px-4 py-3 text-center text-xs font-bold text-gray-800 transition hover:bg-gray-50">
+                                    Volunteer
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="rounded-2xl border border-gray-200 bg-white px-6 py-16 text-center shadow-sm">
+                <h2 class="text-xl font-bold text-gray-900">No projects found</h2>
+                @if (!string.IsNullOrWhiteSpace(searchString))
+                {
+                    <p class="mt-2 text-sm text-gray-600">Try another title or location, or clear your search.</p>
+                    <a asp-controller="Project" asp-action="Index" class="mt-5 inline-flex font-bold text-emerald-700 underline hover:text-emerald-900">
+                        Show all projects
+                    </a>
+                }
+                else
+                {
+                    <p class="mt-2 text-sm text-gray-600">There are no relief projects to display right now.</p>
+                }
+            </div>
+        }
+    </div>
+</section>

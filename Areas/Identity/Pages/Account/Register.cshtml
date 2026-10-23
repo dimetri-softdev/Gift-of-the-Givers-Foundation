@@ -1,0 +1,63 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="min-h-[70vh] bg-slate-50 px-4 py-12 sm:py-16">
+    <div class="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl md:grid md:grid-cols-5">
+        <div class="bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 p-8 text-white sm:p-10 md:col-span-2">
+            <span class="inline-flex rounded-full border border-emerald-300/30 bg-emerald-300/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-emerald-200">Join the cause</span>
+            <h1 class="mt-6 text-3xl font-black tracking-tight">Create an Account</h1>
+            <p class="mt-4 text-sm leading-relaxed text-slate-300">Join us to start making an impact.</p>
+        </div>
+
+        <div class="p-8 sm:p-10 md:col-span-3">
+            <h2 class="text-xl font-black text-slate-900">Your details</h2>
+            <form method="post" asp-route-returnUrl="@Model.ReturnUrl" class="mt-7 space-y-5">
+                <div asp-validation-summary="ModelOnly" role="alert" class="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700"></div>
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="Input.FirstName" class="mb-2 block text-xs font-bold text-slate-700">First Name</label>
+                        <input asp-for="Input.FirstName" placeholder="John" autocomplete="given-name" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                        <span asp-validation-for="Input.FirstName" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.LastName" class="mb-2 block text-xs font-bold text-slate-700">Last Name</label>
+                        <input asp-for="Input.LastName" placeholder="Doe" autocomplete="family-name" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                        <span asp-validation-for="Input.LastName" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                </div>
+                <div>
+                    <label asp-for="Input.Email" class="mb-2 block text-xs font-bold text-slate-700">Email address</label>
+                    <input asp-for="Input.Email" placeholder="name@example.com" autocomplete="email" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                    <span asp-validation-for="Input.Email" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="Input.Password" class="mb-2 block text-xs font-bold text-slate-700">Password</label>
+                        <input asp-for="Input.Password" placeholder="••••••••" autocomplete="new-password" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                        <span asp-validation-for="Input.Password" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.ConfirmPassword" class="mb-2 block text-xs font-bold text-slate-700">Confirm Password</label>
+                        <input asp-for="Input.ConfirmPassword" placeholder="••••••••" autocomplete="new-password" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                </div>
+                <button type="submit" class="w-full rounded-xl bg-emerald-700 px-5 py-3.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                    Register
+                </button>
+            </form>
+
+            <p class="mt-6 border-t border-slate-100 pt-5 text-sm text-slate-600">
+                Already registered?
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="font-bold text-emerald-800 hover:text-emerald-950">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

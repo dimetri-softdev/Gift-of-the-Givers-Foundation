@@ -8,10 +8,12 @@ namespace GiftOfTheGivers.Controllers
     public class VolunteerController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<VolunteerController> _logger;
 
-        public VolunteerController(ApplicationDbContext context)
+        public VolunteerController(ApplicationDbContext context, ILogger<VolunteerController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: /Volunteer (or /Volunteer/Index)
@@ -40,18 +42,7 @@ namespace GiftOfTheGivers.Controllers
                 _context.Volunteers.Add(model);
                 await _context.SaveChangesAsync();
 
-                // Create Audit Log entry
-                var auditLog = new AuditLog
-                {
-                    Action = "Volunteer Registered",
-                    EntityName = nameof(Volunteer),
-                    EntityID = model.VolunteerID, // FIX: assign int, not string
-                    CreatedDate = DateTime.UtcNow
-                };
-
-                // FIX: Use Set<AuditLog>() since AuditLogs DbSet is missing
-                _context.Set<AuditLog>().Add(auditLog);
-                await _context.SaveChangesAsync();
+                _logger.LogInformation("Volunteer application {VolunteerId} was registered.", model.VolunteerID);
 
                 TempData["SuccessMessage"] = "Thank you for registering! Your application has been submitted successfully.";
                 return RedirectToAction(nameof(Index));
@@ -68,15 +59,5 @@ namespace GiftOfTheGivers.Controllers
                 .Where(p => p.Status == "Active")
                 .ToListAsync();
         }
-    }
-
-    public class AuditLog
-    {
-        public int AuditLogID { get; set; }
-        public string EntityName { get; set; } = string.Empty;
-        public int EntityID { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string? Details { get; set; }
-        public string? Action { get; set; }
     }
 }

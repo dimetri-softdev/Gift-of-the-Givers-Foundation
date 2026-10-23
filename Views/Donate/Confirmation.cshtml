@@ -1,0 +1,57 @@
+@model GiftOfTheGivers.Models.Donation
+
+@{
+    ViewData["Title"] = "Donation Confirmation";
+    var isDemo = Model.DonorName?.StartsWith("DEMO", StringComparison.OrdinalIgnoreCase) == true;
+}
+
+<section class="min-h-[60vh] bg-slate-50 px-4 py-14">
+    <div class="mx-auto max-w-2xl rounded-3xl border border-slate-200 bg-white p-8 shadow-lg sm:p-10">
+        <div class="text-center">
+            <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">
+                @(isDemo ? "Demo record" : "Donation recorded")
+            </span>
+            <h1 class="mt-5 text-3xl font-black tracking-tight text-slate-900">Thank you for your support</h1>
+            @if (isDemo)
+            {
+                <p class="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
+                    This is fictional evaluation data. No payment was processed.
+                </p>
+            }
+            else
+            {
+                <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                    Your contribution has been recorded. This confirmation is not a payment receipt.
+                </p>
+            }
+        </div>
+
+        <dl class="mt-8 divide-y divide-slate-100 rounded-2xl border border-slate-200 px-5">
+            <div class="flex justify-between gap-4 py-4 text-sm">
+                <dt class="font-semibold text-slate-600">Reference</dt>
+                <dd class="font-bold text-slate-900">#@Model.DonationID</dd>
+            </div>
+            <div class="flex justify-between gap-4 py-4 text-sm">
+                <dt class="font-semibold text-slate-600">Amount</dt>
+                <dd class="font-bold text-slate-900">@Model.Currency @Model.Amount.ToString("N2")</dd>
+            </div>
+            <div class="flex justify-between gap-4 py-4 text-sm">
+                <dt class="font-semibold text-slate-600">Frequency</dt>
+                <dd class="font-bold text-slate-900">@Model.Frequency</dd>
+            </div>
+            <div class="flex justify-between gap-4 py-4 text-sm">
+                <dt class="font-semibold text-slate-600">Relief project</dt>
+                <dd class="text-right font-bold text-slate-900">@(Model.ReliefProject?.Title ?? "General Disaster Fund")</dd>
+            </div>
+        </dl>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+            <a asp-controller="Project" asp-action="Index" class="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800">
+                Browse relief projects
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50">
+                Return home
+            </a>
+        </div>
+    </div>
+</section>

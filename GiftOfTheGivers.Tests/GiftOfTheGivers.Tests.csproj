@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GiftOfTheGivers.Helpers\GiftOfTheGivers.Helpers.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 

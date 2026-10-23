@@ -100,11 +100,6 @@ using (var scope = app.Services.CreateScope())
             await userManager.CreateAsync(user, "Password123!");
             await userManager.AddToRoleAsync(user, "Employee");
         }
-        else
-        {
-            var token = await userManager.GeneratePasswordResetTokenAsync(user);
-            await userManager.ResetPasswordAsync(user, token, "Password123!");
-        }
     }
     catch (Exception ex)
     {

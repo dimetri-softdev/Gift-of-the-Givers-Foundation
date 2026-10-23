@@ -13,9 +13,10 @@ An ASP.NET Core Web Application (MVC) designed to streamline relief project trac
   * Section 18A Tax Certificate requests and ID/Tax Reference capture.
   * Guest and authenticated user donation paths.
 * **Volunteer Portal:** Register for specific relief projects and manage volunteer availability.
+* **Employee Portal:** Review donations and volunteer applications, and create relief projects with optional photos and campaign links.
 * **Authentication & Role-Based Access (Identity):**
   * Secure User Registration and Login via ASP.NET Core Identity.
-  * Role-Based Access Control (`Admin`, `Volunteer`, `Donor`).
+  * Role-Based Access Control (`Admin`, `Employee`, `Volunteer`, `Donor`).
 
 ---
 

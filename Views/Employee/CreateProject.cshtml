@@ -1,0 +1,77 @@
+@model GiftOfTheGivers.Models.CreateReliefProjectViewModel
+
+@{
+    ViewData["Title"] = "Post New Relief Project";
+}
+
+<section class="min-h-screen bg-slate-50 py-10 sm:py-14">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <a asp-action="Index" class="text-sm font-bold text-emerald-800 hover:text-emerald-950">&larr; Back to Dashboard</a>
+
+        <div class="mt-5 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+            <div class="bg-gradient-to-r from-slate-950 to-emerald-950 px-6 py-7 text-white sm:px-8">
+                <p class="text-xs font-bold uppercase tracking-widest text-emerald-300">Internal operations</p>
+                <h1 class="mt-2 text-2xl font-black sm:text-3xl">Post New Relief Project</h1>
+                <p class="mt-2 text-sm text-slate-300">Configure a relief campaign and its fundraising target.</p>
+            </div>
+
+            <form asp-action="CreateProject" method="post" enctype="multipart/form-data" class="space-y-6 p-6 sm:p-8">
+                <div asp-validation-summary="ModelOnly" role="alert" class="text-sm font-medium text-red-700"></div>
+
+                <div>
+                    <label asp-for="Title" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-700">Project title</label>
+                    <input asp-for="Title" placeholder="e.g. KZN Coastal Flood Relief Drive" class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                    <span asp-validation-for="Title" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+
+                <div class="grid gap-6 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="Location" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-700">Location / target region</label>
+                        <input asp-for="Location" placeholder="e.g. Durban Metro, KwaZulu-Natal" class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                        <span asp-validation-for="Location" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="TargetAmount" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-700">Target amount (ZAR)</label>
+                        <div class="flex overflow-hidden rounded-xl border border-gray-300 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100">
+                            <span class="flex items-center bg-gray-50 px-4 text-sm font-bold text-gray-600">R</span>
+                            <input asp-for="TargetAmount" type="number" min="1" step="0.01" class="w-full min-w-0 px-4 py-3 text-sm focus:outline-none" />
+                        </div>
+                        <span asp-validation-for="TargetAmount" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Status" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-700">Initial status</label>
+                    <select asp-for="Status" class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100">
+                        <option value="Active">Active</option>
+                        <option value="Planned">Planned</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <span asp-validation-for="Status" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+
+                <div>
+                    <label asp-for="ImageFile" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-700">Project photo</label>
+                    <input asp-for="ImageFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="block w-full rounded-xl border border-gray-300 bg-white text-sm text-gray-700 file:mr-4 file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-sm file:font-bold file:text-gray-700 hover:file:bg-gray-200" />
+                    <p class="mt-1 text-xs text-gray-500">Optional. JPG, PNG, or WebP; maximum 5 MB.</p>
+                    <span asp-validation-for="ImageFile" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+
+                <div>
+                    <label asp-for="VideoUrl" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-700">Video link <span class="font-normal normal-case text-gray-500">(optional)</span></label>
+                    <input asp-for="VideoUrl" type="text" placeholder="https://youtube.com/watch?v=..." class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                    <span asp-validation-for="VideoUrl" class="mt-1 block text-xs text-red-600"></span>
+                </div>
+
+                <div class="flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end">
+                    <a asp-action="Index" class="rounded-xl border border-gray-300 px-5 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50">Cancel</a>
+                    <button type="submit" class="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-emerald-800">Post Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
